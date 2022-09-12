@@ -4,8 +4,6 @@
 
 #pragma comment(lib, "ntdll.lib")
 
-// Check for linux
-
 EXTERN_C NTSTATUS NTAPI RtlAdjustPrivilege(ULONG, BOOLEAN, BOOLEAN, PBOOLEAN);
 
 EXTERN_C NTSTATUS NTAPI NtRaiseHardError(NTSTATUS, ULONG, ULONG, PULONG_PTR, ULONG, PULONG);
