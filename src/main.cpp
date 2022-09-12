@@ -4,6 +4,7 @@
 
 #pragma comment(lib, "ntdll.lib")
 
+// Check for linux
 
 EXTERN_C NTSTATUS NTAPI RtlAdjustPrivilege(ULONG, BOOLEAN, BOOLEAN, PBOOLEAN);
 
